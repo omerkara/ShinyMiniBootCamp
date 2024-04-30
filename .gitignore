@@ -1,0 +1,33 @@
+#================================= .gitignore ==================================
+#================= Ignore the following folder/files for git ===================
+
+#============================ User Folders/Files ===============================
+/—Helper/
+/—Repo/
+
+/Apps/—Repo/
+/Slides/—Repo/
+
+/renv/
+
+#=========================== System Folders/Files ==============================
+#.Rprofile
+.Rproj.user/
+#*.RData
+.Rhistory
+.Ruserdata
+rsconnect/
+
+#*_cache
+#*_files
+
+#============================ Misc. Folders/Files ==============================
+.dropbox
+.DS_Store
+Thumbs.db
+Icon
+Icon?
+Iconr
+*.jar
+
+#==================================== END ======================================

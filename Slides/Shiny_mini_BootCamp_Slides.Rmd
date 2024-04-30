@@ -1,0 +1,1690 @@
+---
+title: "Shiny mini BootCamp"
+subtitle: "Erasmus+ KA131 Teaching Mobility"
+author: "[Dr. Omer Kara](https://omerkara.netlify.app/)"
+institute: "Department of Economics <br/> Eskisehir Osmangazi University"
+date: "May 7th-8th, 2024 <br/> (Updated: `r format(Sys.time(), '%A, %B %d, %Y')`)"
+output:
+    xaringan::moon_reader:
+      css: ["default", "default-fonts", "./Files/custom.css"] ## If a path does not contain a filename extension, it is assumed to be a built-in CSS file in the xaringan package.
+      lib_dir: libs ## Creates directory for libraries.
+      chakra: libs/remark-latest.min.js ## To make slides work offline. xaringan::summon_remark(). Run this code first, if chakra is used in YAML.
+      ## Check the link for all options: https://github.com/gnab/remark/wiki/Configuration
+      nature:
+        ratio: 16:9 ## Sets the slideshow display ratio. 4:3 for standard size.
+        # seal: true ## Sets pre-determined title slide format or a custom title slide format which can be used with titleSlideClass: ["inverse", "center", "middle"] as a new option.
+        slideNumberFormat: "%current% / %total%" ## Customize slide number label, either using a format string or by using a format function. Example: "%current% of %total%" or "Slide %current% of %total%".
+        highlightLines: true ## Enables code line highlighting.
+        highlightStyle: github ## Sets highlight style for syntax highlighting. Alternatives: googlecode, zenburn, default.
+        highlightLanguage: ["r"] ## Sets default language for syntax highlighting.
+        countIncrementalSlides: false ## Enables counting of incremental slides in the slide counting.
+        includePresenterNotes: false ## Indicates if presenter notes should be visible or not.
+        # autoplay: 3000 ## Autoplay slide in every milliseconds. 1 second = 1000 millisecond.
+        # countdown: 60000 ## Countdown timer in milliseconds.
+editor_options: 
+  chunk_output_type: console
+---
+```{r Settings.R.Code.Chunk, include = FALSE, purl = FALSE}
+knitr::opts_chunk$set(
+  engine = "R",
+  cache = TRUE,
+  include = TRUE,
+  echo = TRUE,
+  eval = TRUE,
+  purl = TRUE,
+  
+  message = TRUE,
+  warning = TRUE,
+  error = FALSE,
+  
+  fig.align = "center",
+  fig.height = 5,
+  fig.width = 7,
+  fig.retina = 2,
+  out.width = "100%",
+  
+  collapse = TRUE,
+  highlight = TRUE,
+  prompt = FALSE,
+  results = "markup",
+  comment = "#>",
+  rows.print = 5,
+  strip.white = TRUE,
+  tidy = FALSE,
+  tidy.opts = list(width.cutoff = 80)
+)
+```
+
+```{r Settings.General, include = FALSE, purl = FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r Settings.Paths, include = FALSE, purl = FALSE, cache = FALSE}
+figs.path <- paste0("./", "Figs/") ## Path for "Figs" folder.
+files.path <- paste0("./", "Files/") ## Path for "Files" folder.
+
+logo.blue.path <- paste0(figs.path, "logo_esogu_blue.png") ## Path for ESOGU logo blue file.
+logo.black.path <- paste0(figs.path, "logo_esogu_black.png") ## Path for ESOGU logo black file.
+logo.unp.path <- paste0(figs.path, "logo_unp.png") ## Path for UNP logo file.
+```
+
+```{r Settings.Functions, include = FALSE, purl = FALSE}
+
+```
+
+```{r Settings.Pacakges, include = FALSE, purl = FALSE, cache = FALSE}
+library("xaringan") ## xaringan package for xaringan slides.
+library("xaringanExtra") ## xaringanExtra package for extras.
+```
+
+```{r Settings.xaringanExtra.1, include = FALSE, purl = FALSE, cache = FALSE}
+# General.
+xaringanExtra::use_fit_screen() ## Fits slide to screen by ignoring the ratio. Shortcut key: Alt/Option + F
+xaringanExtra::use_tile_view() ## Tile view. Shortcut key: o.
+xaringanExtra::use_scribble(pen_size = 3) ## Scribble, draw on slides. Shortcut key: s.
+xaringanExtra::use_search(position = "top-left", show_icon = TRUE) ## Search bar.
+
+# Tabset panels.
+## Check: https://github.com/gadenbuie/xaringanExtra?tab=readme-ov-file#-panelset and https://pkg.garrickadenbuie.com/xaringanExtra/panelset/#1
+# xaringanExtra::use_panelset()
+
+# For using extra style.
+## Use #<< at the end of the line.
+## Note that using the below code disables the default highlighting in xaringan.
+# xaringanExtra::use_extra_styles(
+#   hover_code_line = TRUE, ## Adds a little floating triangle next to the hovered line in a code chunk.
+#   mute_unhighlighted_code = TRUE ## Mutes the lines that are not highlighted.
+# )
+```
+
+class: inverse, center, top
+
+# In Collabration of
+
+.pull-left[
+```{r out.width = "60%", fig.cap = "Eskisehir Osmangazi University<br>Department of Economics", fig.link = "https://www.ogu.edu.tr/en", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(logo.blue.path)
+```
+]
+
+.pull-right[
+```{r out.width = "60%", fig.cap = "University of Naples Parthenope<br>Department of Business and Quantitative Studies", fig.link = "https://www.uniparthenope.it/", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(logo.unp.path)
+```
+]
+
+--
+<br>
+and
+<br>
+<br>
+.red[<a href="https://www.uniparthenope.it/Portale-Ateneo/organigramma/1231">Prof. Giovanni De Luca</a>] & .red[<a href="https://www.uniparthenope.it/Portale-Ateneo/organigramma/1231">Prof. Paolo Mazzocchi</a>]
+
+```{r Settings.xaringanExtra.2, include = TRUE, echo = FALSE, purl = FALSE}
+# Important note: the code for logo needs to be just below the fist slide after the title slide. If you put the code for log before that the aesthetics of slide after the title slide will not work. That might be bug in xaringanExtra package.
+xaringanExtra::use_logo(
+  image_url = logo.blue.path,
+  width = "60px",
+  height = "60px",
+  position = css_position(bottom = "12px", left = "20px"),
+  # position = css_position(top = "0.5em", left = "0.5em"),
+  link_url = "https://www.ogu.edu.tr/en",
+  exclude_class = c("title-slide", "inverse", "hide_logo")
+)
+```
+
+---
+class: hide_logo
+background-image: url(`r paste0(figs.path, "shiny_cover.png")`)
+background-position: center
+background-size: cover
+
+---
+class: inverse, center, middle
+
+# What is Shiny?
+
+---
+# What is Shiny?
+
+[Shiny](https://shiny.posit.co/) is a framework for easily building **fully interactive** web applications using [R](https://www.r-project.org/) code.
+
+--
+  - .orange[User interface (UI)] components can be easily customized or extended, which will cause the .purple[server] to update the .orange[UI]’s display (by running R code).
+
+--
+  - .purple[Server] uses reactive programming to let you create any type of back-end logic you want.
+
+--
+  - No HTML, CSS, and JavaScript required but can be used easily.
+
+--
+
+# What is Shiny App?
+A **Shiny** app is a web page or a user interface (.orange[UI]) connected to a computer running a live R session (.purple[server]).
+
+--
+
+  - Users can manipulate the .orange[UI], which will cause the .purple[server] to update the .orange[UI]'s display (by running R code).
+
+---
+class: center, middle
+
+## Shiny app can be maintained by a .red[local computer] running R.
+```{r out.width = "100%", fig.align = "center", out.height = 400, include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "r_computer_local.png"))
+```
+
+---
+class: center, middle
+
+## Shiny app can be maintained by a .red[cloud computer] running R.
+```{r out.width = "100%", fig.align = "center", out.height = 400, include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "r_computer_cloud.png"))
+```
+
+---
+class: center, middle
+
+## Shiny App Working Logic
+```{r out.width = "100%", fig.align = "center", out.height = 500, include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "r_computer3.png"))
+```
+
+---
+# Installation
+[Shiny package](https://cran.r-project.org/web/packages/shiny/index.html) is required for using the Shiny framework.
+
+--
+
+```{r eval = FALSE}
+install.packages("shiny")
+library(shiny)
+```
+
+---
+class: inverse, center, middle
+
+# Creating Shiny App
+
+---
+# Creating Shiny App
+There are two main ways (application types) to create a Shiny app.
+  - Single file app: .red[`app.R`]
+  - Multiple file app: .orange[`ui.R`] and .purple[`server.R`]
+
+--
+
+Main shiny app files<sup>1</sup>:
+  - .orange[`ui.R`] defines the user interface, the HTML webpage that humans interact with.
+  - .purple[`server.R`] specifies the behavior of the shiny app by defining a server function.
+  - .red[`app.R`] is a single file that contains the all codes from both the .orange[`ui.R`] and .purple[`server.R`] files.
+
+.footnote[
+[1] We'll talk about the details of .red[`app.R`], .orange[`ui.R`], and .purple[`server.R`] files in coming slides.
+]
+
+--
+
+.red[**Warning**]: Name of these files should be as given above, otherwise your shiny app will not work.
+
+---
+# Creating Shiny App
+You can perform either way by
+
+--
+  - creating those files (.red[`app.R`], .orange[`ui.R`], .purple[`server.R`]) in a directory yourself.
+
+--
+  - using RStudio.
+
+--
+
+Both ways has the same end result, so choose the easiest one for yourself.
+  - I prefer creating those files myself; however, in this BootCamp we'll use RStudio.
+
+---
+# R + Shiny with RStudio = Shiny App
+It is easier to build Shiny apps using [RStudio](https://posit.co/download/rstudio-desktop/) due to several handy shortcuts, preview options, and etc.
+
+--
+
+.pull-left-mod[
+```{r out.width = "50%", fig.align = "left", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "r_logo.png"))
+```
+<br>
+```{r out.width = "50%", fig.align = "left", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_logo.png"))
+```
+<br>
+```{r out.width = "50%", fig.align = "left", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "rstudio_logo.png"))
+```
+]
+
+--
+
+.pull-right-mod[
+```{r out.width = "100%", fig.align = "center", out.height = 400, include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny.gif"))
+```
+]
+
+---
+# Creating Shiny App in RStudio
+
+Creating a shiny app with RStudio is easy and gives you several options.
+  - Without a **RStudio project**:
+    + Single file app.
+    + Multiple file app.
+  - With a **RStudio project** (with `.Rproj` file in the directory).
+    + Single file app.
+    + Multiple file app (should be added manually).
+
+--
+
+Using [**RStudio project**](https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects) for building a shiny app has several advantages:
+  - Dividing your work into multiple contexts, each with their own working directory, workspace, history, and source documents.
+  - New RStudio session.
+  - Project based RStudio options.
+
+---
+# Creating Shiny App in RStudio - Without RStudio Project
+
+If you use RStudio, it is easy to get started:
+  1. from the menu `File -> New File -> Shiny Web App`.
+  2. on the *pop-up window* give a **name** to your shiny app.
+    - This will be the directory name that your app will be saved, not the file name that your app runs.
+  3. on the *pop-up window* chose the **application type** (single or multiple file).
+  4. press **Create**.
+
+```{r out.width = "60%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "rstudio_shiny_create.png"))
+```
+
+---
+# Creating Shiny App in RStudio - With RStudio Project
+
+If you use RStudio with RStudio Project:
+  1. from the menu `File -> New Project`.
+  2. on the *pop-up window* select **New Directory**.
+  3. on the *pop-up window* chose the **Shiny Application**.
+  4. on the *pop-up window* give a **name** to your shiny app.
+    - This will be the directory name that your app will be saved, not the file name that your app runs.
+  5. press **Create**.
+
+```{r out.width = "35%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "rstudio_new_project1.png"))
+```
+
+---
+# Creating Shiny App in RStudio - With RStudio Project
+
+.pull-left[
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "rstudio_new_project2.png"))
+```
+]
+
+--
+
+.pull-right[
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "rstudio_new_project3.png"))
+```
+]
+
+---
+class: inverse, center, middle
+
+# Running Shiny App
+
+---
+# Running Shiny App in Rstudio
+
+After creating the shiny app with a **single file**<sup>1</sup>
+  1. You will see a shiny app example in the editor, with a single file named as .red[`app.R`].
+  2. Press the **Run App** button on the top-right of the editor to run the app or use the keyboard shortcut `Cmd/Ctrl + Shift + Enter` while the .red[`app.R`] file is open on the editor.<sup>3</sup>
+
+--
+
+After creating the shiny app with **multiple file**<sup>2</sup>
+  1. You will see a shiny app example in the editor, with two files named as .orange[`ui.R`] and .purple[`server.R`].
+  2. Press the **Run App** button on the top-right of the editor to run the app or use the keyboard shortcut `Cmd/Ctrl + Shift + Enter` while either the .orange[`ui.R`] or .purple[`server.R`] file is open on the editor.<sup>3</sup>
+
+.footnote[
+[1] With or without RStudio Project.  
+[2] Without RStudio Project. If RStudio Project is desired, .orange[`ui.R`] and .purple[`server.R`] files should be created manually.  
+[3] `runApp(<path to shiny app directory>)` can also be used to run the app.
+]
+
+--
+
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "rstudio_shiny_run_app.png"))
+```
+
+---
+class: inverse, center, middle
+
+# Previewing and Closing Shiny App
+
+---
+# Previwing Shiny App
+
+After running the shiny app you can preview it on:
+
+--
+  - **Browser** in your computer.
+
+--
+  - **Viewer Pane** in RStudio.
+
+--
+  - **Built in web browser window** in RStudio as shown below.
+
+--
+
+```{r out.width = "65%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "rstudio_shiny_preview_window.png"))
+```
+
+---
+class: center, middle
+
+## Closing a Shiny App in Rstudio
+```{r out.width = "100%", fig.align = "center", out.height = 500, include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "rstudio_shiny_close_app.png"))
+```
+
+---
+class: inverse, center, middle
+
+# Shiny App Directory
+
+---
+# Shiny App Directory
+
+The **shiny app directory** should follow some rules and certain file names.
+
+--
+  - Keep your app in a directory along with optional extra files.
+
+--
+  - The directory name is the shiny app name.
+
+---
+# Shiny App Directory with Main Files
+
+**Main files** in the shiny app directory:
+  - Single file app: .red[`app.R`]
+  - Multiple file app: .orange[`ui.R`] and .purple[`server.R`].
+
+--
+
+.pull-left[
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_directory_single_file.png"))
+```
+]
+.pull-right[
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_directory_multiple_file.png"))
+```
+]
+
+---
+# Shiny App Directory with Extra Files
+
+**Extra files** in the shiny app directory:
+
+--
+
+  - `global.R`: (optional) defines objects available to both .orange[`ui.R`] and .purple[`server.R`], sourced automatically and must be named as `global.R`.
+
+--
+
+  - `./R/`: (optional) directory of supplemental `.R` files, sourced automatically and must be named as `R`.
+
+--
+
+  - `./www/`: (optional) directory of files to share with web browsers (images, CSS, .js, etc.), must be named as `www`.
+
+--
+
+  - `DESCRIPTION`: (optional) used in showcase mode.
+
+--
+
+  - `README.md`: (optional) used in showcase mode.
+
+--
+
+.red[**Warning**]: Load the necessary libraries for your shiny app either in the `global.R` file or .red[`app.R`] file.
+
+---
+# Shiny App Directory - Single File
+
+```{r out.width = "80%", fig.align = "center", fig.cap = "Single File App - Version 1", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_directory_1.png"))
+```
+
+--
+
+```{r out.width = "80%", fig.align = "center", fig.cap = "Single File App - Version 2", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_directory_2.png"))
+```
+
+---
+# Shiny App Directory - Multiple File
+
+```{r out.width = "40%", fig.align = "center", fig.cap = "Multiple File App with RStudio Project", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_directory_multiple_file_RStudio_Project.png"))
+```
+
+---
+class: inverse, center, middle
+
+# Structure of Shiny App
+
+---
+# Structure of Shiny App
+
+Shiny app should have two required and one optional component.
+- .orange[UI]: (required) The user interface object controls the layout and appearance of the shiny app.
+- .purple[Server]: (required) The server function contains the instructions that computer needs to build the shiny app.
+- `shinyApp()`: (optional) The function creates shiny app objects from an explicit .orange[UI]/.purple[server] pair.
+
+--
+
+Single file app has three components inside of the .red[`app.R`] file.
+  - .orange[UI]: a user interface object
+  - .purple[Server]: a server function
+  - `shinyApp()`: a call to the `shinyApp()` function
+
+--
+
+Multiple file app has two components:
+  - .orange[`ui.R`]: contains a user interface object.
+  - .purple[`server.R`]: contains a server function.
+
+---
+# Structure of Shiny App - Single File App
+
+Simple single file:
+```{r eval = FALSE}
+# app.R file.
+
+# Packages.
+library(shiny)
+
+# UI.
+ui <- fluidPage(
+    "Hello World"
+)
+
+# Server.
+server <- function(input, output) {
+    ## Add server related functions, objects, and etc.
+    ## Now it is empty, so nothing happens in the server.
+}
+
+# Creating Shiny App.
+shinyApp(ui = ui, server = server)
+```
+
+---
+# Structure of Shiny App - Multiple File App
+
+Simple multiple file app:
+```{r eval = FALSE}
+# ui.R file.
+
+# Packages.
+library(shiny)
+
+# UI.
+ui <- fluidPage(
+    "Hello World"
+)
+```
+
+--
+
+```{r eval = FALSE}
+# server.R file.
+
+# Server.
+server <- function(input, output) {
+    ## Add server related functions, objects, and etc.
+    ## Now it is empty, so nothing happens in the server.
+}
+```
+
+---
+# Structure of Shiny App - Single vs Multiple File App
+
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_structure_single_file_vs_multiple_file.png"))
+```
+
+.footnote[
+We'll talk about the details of layout, `*Input`, `*Output`, and `render*` functions later.
+]
+
+---
+class: inverse, center, middle
+
+# Shiny App Reactive Flow
+
+---
+# Shiny App Reactive Flow
+
+Simplest interactive shiny app reactive flow:
+  1. Define the layout of the shiny app in .orange[UI] using with layout functions.
+  2. Add an input to the .orange[UI] with **`*Input()`** functions to make the app interactive.
+  3. Tell the .purple[server] how respond to inputs with R and to render outputs.
+    - Refer to inputs with **`input$<id>`**. Input values are reactive.
+    - Wrap code in a **`render*()`** function before saving to output.
+    - Name output objects as **`output$<id>`**.
+  4. Add the output object generated by the .purple[server] into the .orange[UI] using **`*Output()`** functions.
+    - Refer to outputs with **`output$<id>`**.
+
+---
+# Shiny App Reactive Flow
+
+```{r out.width = "100%", fig.align = "center", fig.cap = "Shiny App Reactive Flow - Version 1", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_reactive_flow_1.png"))
+```
+
+.footnote[
+We'll talk about the details of layout, `*Input`, `*Output`, and `render*` functions later.
+]
+
+---
+# Shiny App Reactive Flow
+
+```{r out.width = "90%", fig.align = "center", fig.cap = "Shiny App Reactive Flow - Version 2", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_reactive_flow_2.png"))
+```
+
+.footnote[
+We'll talk about the details of layout, `*Input`, `*Output`, and `render*` functions later.
+]
+
+---
+class: inverse, center, middle
+
+# Inputs and Outputs
+
+---
+class: center, middle
+
+## Build shiny app around .green[inputs] and .blue[outputs]
+
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_inputs.png"))
+```
+
+---
+class: center, middle
+
+## Build shiny app around .green[inputs] and .blue[outputs]
+
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_outputs.png"))
+```
+
+---
+# .green[Inputs] and .blue[Outputs]
+
+Add elements to your app as arguments to layout function<sup>1</sup>, e.g., `fluidPage()`.
+
+--
+
+```{r eval = FALSE}
+# UI.
+ui <- fluidPage(
+  # *Input() functions,
+  # *Output() functions
+)
+```
+
+.footnote[
+[1] We'll talk about the details of layout functions later.
+]
+
+---
+class: inverse, center, middle
+
+# Inputs
+
+---
+# .green[Inputs]
+
+Create an .green[input] with **`*Input()`** functions.
+
+--
+
+```{r eval = FALSE}
+# Slider input example.
+
+sliderInput(
+  inputId = "num", #<<
+  label = "Choose a number",
+  value = 25, min = 1, max = 100
+)
+```
+
+--
+
+.red[**Warning**]: Use **`input$<id>`** to access input values in the .purple[server].
+
+---
+# .green[Inputs]
+
+Single .green[input] shiny app example without any .blue[output].
+
+--
+
+.pull-left[
+```{r eval = FALSE}
+# Packages.
+library(shiny)
+
+# UI.
+ui <- fluidPage(
+  sliderInput( #<<
+    inputId = "num", #<<
+    label = "Choose a number", #<<
+    value = 25, min = 1, max = 100 #<<
+  ) #<<
+  ## No output is reflected.
+)
+
+# Server.
+server <- function(input, output) {
+    ## No output is rendered/generated.
+}
+
+# Creating Shiny App.
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_input_single_output_no.png"))
+```
+]
+
+---
+# .green[Input] Reactivity
+
+The .green[input] value is reactive<sup>1</sup> and changes whenever the end-user changes the .green[input] in the .orange[UI].
+
+--
+
+```{r out.width = "60%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_input_values.png"))
+```
+
+.footnote[
+[1] We'll talk about the reactivity later.
+]
+
+---
+class: center, middle
+
+# `*Input()` Functions Syntax
+
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_input_syntax.png"))
+```
+
+---
+class: center, middle
+
+# Basic Inputs (Widgets)
+
+```{r out.width = "90%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_input_functions_basic_1.png"))
+```
+
+---
+class: center, middle
+
+# Basic Inputs (Widgets)
+
+```{r out.width = "85%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_input_functions_basic_2.png"))
+```
+
+---
+class: center, middle
+
+# [Shiny Widgets Gallery](https://shiny.posit.co/r/gallery/widgets/widget-gallery/)
+
+```{r out.width = "85%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_input_functions_basic_gallery.png"))
+```
+
+---
+class: inverse, center, middle
+
+# Outputs
+
+---
+# Outputs
+
+**`*Output()`** functions reflects the .blue[output] object rendered in the .purple[server] to display in the .orange[UI].
+
+--
+
+Create an .blue[output] object in the .purple[server] using
+  - **`input$<id>`** to access .green[input] values in the .purple[server].
+  - **`render*()`** functions<sup>1</sup> in .purple[server] to generate the .blue[output] objects.
+  - **`output$<id>`** to name the .blue[output] objects.
+
+--
+
+```{r eval = FALSE}
+server <- function(input, output) {
+    output$hist <- renderPlot( #<<
+        {
+            hist(rnorm(input$num)) #<<
+        }
+    )
+}
+```
+
+--
+
+.red[**Warning**]: Use **`<id>`** of an .blue[output] object to access the .blue[output] object in the .orange[UI].
+
+.footnote[
+[1] We'll talk about the details of `render*()` functions later.
+]
+
+---
+# Outputs
+
+Single .green[input] shiny app example with one .blue[output].
+
+.pull-left[
+```{r eval = FALSE}
+library(shiny)
+
+ui <- fluidPage(
+    sliderInput(
+        inputId = "num", #<<
+        label = "Choose a number",
+        value = 25, min = 1, max = 100
+    ), ## Comma between arguments. #<<
+    plotOutput(outputId = "hist") #<<
+)
+
+server <- function(input, output) {
+    output$hist <- renderPlot( #<<
+        {
+            hist(rnorm(input$num)) #<<
+        }
+    )
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+```{r out.width = "95%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_input_single_output_single.png"))
+```
+]
+
+---
+class: center, middle
+
+# `*Output()` Functions Syntax
+
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_output_syntax.png"))
+```
+
+---
+class: center, middle
+
+# Basic `*Output()` Functions
+
+```{r out.width = "90%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_output_functions_1.png"))
+```
+
+---
+class: center, middle
+
+# Basic `*Output()` Functions
+
+```{r out.width = "60%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_output_functions_2.png"))
+```
+
+.footnote[
+These are the core output types. See [htmlwidgets.org](htmlwidgets.org) for many more options.
+]
+
+---
+class: inverse, center, middle
+
+# Rendering
+
+---
+# `render*()` Functions
+
+**`render*()`** functions create reactive .blue[output] objects in the .purple[server] to display it in the .orange[UI].
+
+--
+
+.red[**Warning**]: Use the corresponding **`render*()`** and **`*Output()`** functions that matches the type of the .blue[output] you wish to make. For example:
+  - `renderPlot()` and `plotOutput()`
+  - `renderImage()` and `imageOutput()`
+
+--
+
+```{r eval = FALSE}
+ui <- fluidPage(
+    sliderInput(inputId = "num", label = "Choose a number", value = 25, min = 1, max = 100),
+
+    plotOutput(outputId = "hist") #<<
+)
+
+server <- function(input, output) {
+    output$hist <- renderPlot( #<<
+        {
+            hist(rnorm(input$num)) #<<
+        }
+    )
+}
+```
+
+---
+class: center, middle
+
+# `render*()` Functions Syntax
+
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_render_syntax.png"))
+```
+
+---
+class: center, middle
+
+# Basic `render*()` Functions
+
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_render_functions.png"))
+```
+
+---
+class: inverse, center, middle
+
+# Basic Reactivity
+
+---
+# Basic Reactivity
+
+Whenever you change an .green[input] value in the .orange[UI], **reactivity** .red[automatically occurs] in the .purple[server] to render an .blue[output] object, which then reflect the updated .blue[output] in the .orange[UI].
+
+--
+
+```{r eval = FALSE}
+ui <- fluidPage(
+    sliderInput(
+      inputId = "num", ## Step 1. #<<
+      label = "Choose a number",
+      value = 25, min = 1, max = 100
+    ),
+
+    plotOutput(outputId = "hist") ## Step 4. #<<
+)
+
+server <- function(input, output) {
+    output$hist <- renderPlot( ## Step 3. #<<
+        {
+            hist(rnorm(input$num)) ## Step 2. #<<
+        }
+    )
+}
+```
+
+---
+class: center, middle
+
+# Basic Reactivity
+
+```{r out.width = "75%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_reactivity_basic_1.png"))
+```
+
+---
+class: center, middle
+
+# Basic Reactivity
+
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_reactivity_basic_2.png"))
+```
+
+---
+class: center, middle
+
+# Basic Reactivity
+
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_reactivity_basic_3.png"))
+```
+
+---
+class: inverse, center, middle
+
+# Reactive Values
+
+---
+# Reactive Values
+
+- Reactive values act as a data stream that flow through your shiny app.
+
+--
+
+- The .green[input] is a list of reactive values.
+  + You may have one or multiple inputs.
+
+--
+
+- The .green[`input$<id>`] shows the current value of the .green[input] with `<id>`.
+
+--
+
+Shiny App Reactive Flow:
+  1. Whenever a reactive value (i.e., .green[`input$<id>`]) changed by the end-user, it becomes invalid.
+  2. The invalid state of .green[`input$<id>`] is notified by the .purple[server].
+  3. In the .purple[server], the .blue[object] created by a `render*()` function will .red[re-run the entire block of code] associated with .green[`input$<id>`].
+  4. The updated .blue[object] created by a `render*()` function is notified by the .orange[UI] and reflected on your screen.
+  
+--
+
+.red[**Warning**]: Reactive values only work together with reactive functions. You cannot call a reactive value from outside of reactive functions.
+
+---
+class: center, middle
+
+# Reactive Values - Syntax
+
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_reactivity_values_syntax.png"))
+```
+
+---
+class: center, middle
+
+# Reactive Values - .green[Input] Values
+
+```{r out.width = "80%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_input_values.png"))
+```
+
+---
+class: center, middle
+
+# Reactive Values - Warning
+
+### Reactive values work together with reactive functions.
+### You cannot call a reactive value from outside of reactive functions.
+
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_reactivity_values.png"))
+```
+
+---
+# Reactive Values - Example
+
+Two .green[input]s shiny app example with one .blue[output].
+
+.pull-left[
+```{r eval = FALSE}
+library(shiny)
+
+ui <- fluidPage(
+  sliderInput(inputId = "num", #<<
+    label = "Choose a number", value = 25, min = 1, max = 100),
+  textInput(inputId = "title", #<<
+    label = "Write a title",
+    value = "Histogram of Random Normal Values"),
+  plotOutput(outputId = "hist")
+)
+
+server <- function(input, output) {
+    output$hist <- renderPlot({
+      hist(rnorm(input$num), main = input$title) #<<
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+```{r out.width = "65%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_input_two_output_single.png"))
+```
+]
+
+---
+class: inverse, center, middle
+
+# Modularization
+
+---
+
+# Modularization - .red[Wrong]
+
+```{r eval = FALSE}
+library(shiny)
+
+ui <- fluidPage(
+    sliderInput(
+      inputId = "num", #<<
+      label = "Choose a number", value = 25, min = 1, max = 100),
+    plotOutput("hist"),
+    verbatimTextOutput("stats")
+)
+
+server <- function(input, output) {
+    output$hist <- renderPlot({
+      hist(rnorm(input$num)) #<<
+    })
+    
+    output$stats <- renderPrint({
+      summary(rnorm(input$num)) #<<
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+---
+# Modularization - .red[Wrong]
+
+```{r out.width = "90%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_modularization_wrong.png"))
+```
+
+---
+# `reactive()` Function
+
+**`reactive()`** function builds a reactive object (reactive expression).
+  - You can call a reactive expression like a function.
+  - Reactive expressions cache their values (the expression will return its most recent value, unless it has become invalidated).
+
+--
+
+```{r eval = FALSE}
+server <- function(input, output) {
+    data <- reactive(
+        {
+            rnorm(input$num) #<<
+        }
+    )
+    
+    output$hist <- renderPlot(
+        {
+            hist(data()) #<<
+        }
+    )
+}
+```
+
+---
+class: center, middle
+
+# `reactive()` Function Syntax
+
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_reactive_function_syntax.png"))
+```
+
+---
+# Modularization - .green[Correct]
+
+```{r eval = FALSE}
+library(shiny)
+
+ui <- fluidPage(
+    sliderInput(inputId = "num", label = "Choose a number", value = 25, min = 1, max = 100),
+    plotOutput("hist"),
+    verbatimTextOutput("stats")
+)
+
+server <- function(input, output) {
+    data <- reactive({ #<<
+      rnorm(input$num) #<<
+    }) #<<
+    output$hist <- renderPlot({
+      hist(data()) #<<
+    })
+    output$stats <- renderPrint({
+      summary(data()) #<<
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+---
+# Modularization - .green[Correct]
+
+```{r out.width = "90%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_modularization_correct.png"))
+```
+
+---
+class: inverse, center, middle
+
+# Preventing Reactivity
+
+---
+# `isolate()` Function
+
+**`isolate()`** function returns the result as a non-reactive value.
+  - Makes a non-reactive object.
+  - Treats reactive values like normal R values.
+
+--
+
+```{r eval = FALSE}
+library(shiny)
+
+ui <- fluidPage(
+  sliderInput(inputId = "num", #<<
+    label = "Choose a number", value = 25, min = 1, max = 100),
+  textInput(inputId = "title", #<<
+    label = "Write a title", value = "Histogram of Random Normal Values"),
+  plotOutput(outputId = "hist")
+)
+
+server <- function(input, output) {
+    output$hist <- renderPlot({
+      hist(rnorm(input$num), main = isolate({input$title})) #<<
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+---
+class: center, middle
+
+# `isolate()` Function Syntax
+
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_isolate_function_syntax.png"))
+```
+
+---
+# `isolate()` Function Logic
+
+```{r out.width = "80%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_isolate_function_example.png"))
+```
+
+---
+class: inverse, center, middle
+
+# Advanced Reactivity
+
+---
+class: center, middle
+
+# Shiny Reactivity Diagram
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_reactivity_advanced.png"))
+```
+
+---
+class: center, middle
+
+# Action Button
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_action_button_syntax.png"))
+```
+
+---
+# Action Button - Example
+
+.pull-left[
+```{r eval = FALSE}
+library(shiny)
+
+ui <- fluidPage(
+    actionButton(
+        inputId = "clicks", #<<
+        label = "Click me"
+    )
+)
+
+server <- function(input, output) {
+    ## Empty for now.
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+```{r out.width = "65%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_action_button_example.png"))
+```
+]
+
+---
+class: center, middle
+
+# `observeEvent()`
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_observeEvent_syntax.png"))
+```
+
+---
+# `observeEvent()` - Example
+
+.pull-left[
+```{r eval = FALSE}
+library(shiny)
+
+ui <- fluidPage(
+    actionButton(
+        inputId = "clicks", #<<
+        label = "Click me"
+    )
+)
+
+server <- function(input, output) {
+    observeEvent(
+        input$clicks, #<<
+        {
+            # Printing in the Console.
+            print(as.numeric(input$clicks)) #<<
+        }
+    )
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+```{r out.width = "65%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_observeEvent_example.png"))
+```
+]
+
+---
+class: center, middle
+
+# `observe()`
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_observe_syntax.png"))
+```
+
+---
+# `observe()` - Example
+
+.pull-left[
+```{r eval = FALSE}
+library(shiny)
+
+ui <- fluidPage(
+    sliderInput(
+        inputId = "num", #<<
+        label = "Choose a number",
+        value = 25, min = 1, max = 100
+    )
+)
+
+server <- function(input, output) {
+    observe(
+        {
+            # Printing in the Console.
+            print(as.numeric(input$num)) #<<
+        }
+    )
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_observe_example.png"))
+```
+]
+
+---
+class: center, middle
+
+# `eventReactive()`
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_eventReactive_syntax.png"))
+```
+
+---
+# `eventReactive()` - Ex: Before Event Reactivity
+
+.pull-left[
+```{r eval = FALSE}
+library(shiny)
+
+ui <- fluidPage(
+    sliderInput(inputId = "num", #<<
+        label = "Choose a number",
+        value = 25, min = 1, max = 100),
+    actionButton(inputId = "go", #<<
+        label = "Update"),
+    plotOutput("hist")
+)
+
+server <- function(input, output) {
+    data <- eventReactive(input$go, { #<<
+      rnorm(input$num) #<<
+    }) #<<
+    output$hist <- renderPlot({
+      hist(data()) #<<
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+```{r out.width = "60%", fig.align = "center", fig.cap = "Before Event Reactivity", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_eventReactive_example_before_event.png"))
+```
+]
+
+---
+class: center, middle
+
+# `eventReactive()` - Ex: After Event Reactivity
+```{r out.width = "70%", fig.align = "center", fig.cap = "After Event Reactivity", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_eventReactive_example_after_event.png"))
+```
+
+---
+class: center, middle
+
+# `reactiveValues()`
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_reactiveValues_syntax.png"))
+```
+
+---
+# `reactiveValues()` - Ex: Before Reactivity
+
+.pull-left[
+```{r eval = FALSE}
+library(shiny)
+
+ui <- fluidPage(
+    actionButton(inputId = "norm", label = "Normal"), #<<
+    actionButton(inputId = "unif", label = "Uniform"), #<<
+    plotOutput("hist")
+)
+
+server <- function(input, output) {
+    rv <- reactiveValues(data = rnorm(100)) #<<
+
+    observeEvent(input$norm, { rv$data <- rnorm(100) }) #<<
+    observeEvent(input$unif, { rv$data <- runif(100) }) #<<
+
+    output$hist <- renderPlot({
+      hist(rv$data) #<<
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+```{r out.width = "65%", fig.align = "center", fig.cap = "Before Reactivity", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_reactiveValues_example_before_reactivity.png"))
+```
+]
+
+---
+class: center, middle
+
+# `reactiveValues()` - Ex: After Reactivity
+```{r out.width = "80%", fig.align = "center", fig.cap = "After Reactivity", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_reactiveValues_example_after_reactivity_1.png"))
+```
+
+---
+class: center, middle
+
+# `reactiveValues()` - Ex: After Another Reactivity
+```{r out.width = "80%", fig.align = "center", fig.cap = "After Another Reactivity", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_reactiveValues_example_after_reactivity_2.png"))
+```
+
+---
+class: inverse, center, middle
+
+# Layout
+
+---
+class: center, middle
+
+# 2-Dimensional Space
+
+### Use **layout functions** to position elements within your app.
+```{r out.width = "50%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_layout_two_dims.png"))
+```
+
+---
+# Layout Functions
+
+Use **layout functions** that divide the .orange[UI] into a grid.
+
+--
+
+  - **`fluidRow()`** function:
+    + Adds row to the grid.
+    + Each new row goes below the previous rows.
+
+--
+
+  - **`column()`** function
+    + Adds columns within a row.
+    + Each new column goes to the right of the previous column.
+    + Specify the `width` and `offset` of each column out of **12**
+
+--
+
+.red[**Warning**]: To place an element in the grid, call it as an argument of a **`layout function`**.
+
+---
+class: center, middle
+
+# Layout Functions - Example
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_layout_layout_functions_example.png"))
+```
+
+---
+class: center, middle
+
+# 3-Dimensional Space
+
+### Use **panel functions** to position elements within your app.
+```{r out.width = "50%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_layout_three_dims.png"))
+```
+
+---
+# Panels
+
+Use **panels** to group multiple elements into a single unit with its own properties.
+
+--
+
+  - Panels can be two-dimensional or three-dimensional.
+
+--
+
+  - Panels can be one layer or multiple stackable layers.
+
+--
+
+  - See app examples for more information.
+
+--
+
+.red[**Warning**]: To place an element in the panel, call it as an argument of a **`panel function`**.
+
+---
+class: center, middle
+
+# Panel Functions
+```{r out.width = "90%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_layout_panel_functions.png"))
+```
+
+---
+class: center, middle
+
+# Panel Functions - Example
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_layout_panel_functions_example_1.png"))
+```
+
+---
+class: center, middle
+
+# Panel Functions - Example
+```{r out.width = "100%", fig.align = "center", include = TRUE, echo = FALSE, purl = FALSE}
+knitr::include_graphics(paste0(figs.path, "shiny_layout_panel_functions_example_2.png"))
+```
+
+---
+class: inverse, center, middle
+
+# Other Important Topics
+
+---
+# Other Important Topics
+
+There are some other important topics left out in this BootCamp:
+
+.pull-left[
+- Working with the HTML in the .orange[UI] and using Shiny HTML tag functions.
+
+- Using CSS, java script, Bootstrap.
+
+- Adding static content, i.e., images, data, and etc.
+
+- Shiny modules
+
+- Profiling, load test, unit test, and reactivity test 
+]
+
+.pull-right[
+- Utilizing from `./www/`, `./R/`, `global.R` file.
+
+- Adding Google Analytics to your app.
+
+- Publishing your app (we will cover [shinyapps.io](https://www.shinyapps.io/) during the app examples)
+]
+
+---
+class: inverse, center, middle
+
+# Useful Links
+
+---
+# Useful Links
+
+.pull-left[
+- [Shiny Web Page](https://shiny.posit.co/) (Posit)
+
+- [Shiny Package](https://rstudio.github.io/shiny/index.html) (Posit GitHub)
+
+- [Shiny Package](https://cran.r-project.org/web/packages/shiny/index.html) (CRAN)
+
+- [Shiny Articles](https://shiny.posit.co/r/articles/) (Posit)
+
+- [Mastering Shiny](https://mastering-shiny.org/index.html) (Online Book)
+
+- [Shiny Crush Course](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/index.html) (Posit)
+
+- [Shiny Gallery](https://shiny.posit.co/r/gallery/) (Posit)
+
+- [Shiny Widget Gallery](https://shiny.posit.co/r/gallery/widgets/widget-gallery/) (Posit)
+
+- [Shiny Themes](https://rstudio.github.io/shinythemes/)
+
+- [Shiny Theme Selector](https://shiny.posit.co/r/gallery/application-layout/shiny-theme-selector/) (Posit)
+
+- [Theme Designer](https://nik01010.shinyapps.io/dashboardThemeDesigner/)
+]
+
+.pull-right[
+- [Shiny Cheat Sheet](https://rstudio.github.io/cheatsheets/html/shiny.html#building-an-app) (Posit)
+
+- [Shiny HTML Tags Glossary](https://shiny.posit.co/r/articles/build/tag-glossary/) (Posit)
+
+- [Using Custom CSS](https://shiny.posit.co/r/articles/build/css/) (Posit)
+
+- [Shiny Modules](https://shiny.posit.co/r/articles/improve/modules/) (Posit)
+
+- [shinyapps.io](https://www.shinyapps.io/)
+
+- [shinyapps.io User Guide](https://docs.posit.co/shinyapps.io/index.html)
+
+- [awesome-rshiny](https://github.com/grabear/awesome-rshiny) (Collection)
+
+- [awesome-shiny-extensions](https://github.com/nanxstats/awesome-shiny-extensions) (Collection)
+
+- [awesome-react-components](https://github.com/brillout/awesome-react-components) (Collection)
+
+- [Tips & Tricks](https://deanattali.com/blog/advanced-shiny-tips/) (Collection)
+]
+
+---
+class: hide_logo, center, middle
+
+# Thank You!
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](https://yihui.org/knitr/), and [R Markdown](https://rmarkdown.rstudio.com).

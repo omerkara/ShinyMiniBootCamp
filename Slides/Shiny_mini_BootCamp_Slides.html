@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Shiny mini BootCamp</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr. Omer Kara" />
+    <script src="libs/header-attrs-2.26/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra_fit-screen-0.2.6/fit-screen.js"></script>
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <script src="libs/mark.js-8.11.1/mark.min.js"></script>
+    <link href="libs/xaringanExtra-search-0.0.1/search.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-search-0.0.1/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"top-left","caseSensitive":false,"showIcon":true,"autoSearch":true}) })</script>
+    <link rel="stylesheet" href="Files/custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Shiny mini BootCamp
+]
+.subtitle[
+## Erasmus+ KA131 Teaching Mobility
+]
+.author[
+### <a href="https://omerkara.netlify.app/">Dr. Omer Kara</a>
+]
+.institute[
+### Department of Economics <br/> Eskisehir Osmangazi University
+]
+.date[
+### May 7th-8th, 2024 <br/> (Updated: Tuesday, April 30, 2024)
+]
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+class: inverse, center, top
+
+# In Collabration of
+
+.pull-left[
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;a href="https://www.ogu.edu.tr/en" target="_blank"&gt;&lt;img src="./Figs/logo_esogu_blue.png" alt="Eskisehir Osmangazi University&amp;lt;br&amp;gt;Department of Economics" width="60%" /&gt;&lt;/a&gt;
+&lt;p class="caption"&gt;Eskisehir Osmangazi University&lt;br&gt;Department of Economics&lt;/p&gt;
+&lt;/div&gt;
+]
+
+.pull-right[
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;a href="https://www.uniparthenope.it/" target="_blank"&gt;&lt;img src="./Figs/logo_unp.png" alt="University of Naples Parthenope&amp;lt;br&amp;gt;Department of Business and Quantitative Studies" width="60%" /&gt;&lt;/a&gt;
+&lt;p class="caption"&gt;University of Naples Parthenope&lt;br&gt;Department of Business and Quantitative Studies&lt;/p&gt;
+&lt;/div&gt;
+]
+
+--
+&lt;br&gt;
+and
+&lt;br&gt;
+&lt;br&gt;
+.red[&lt;a href="https://www.uniparthenope.it/Portale-Ateneo/organigramma/1231"&gt;Prof. Giovanni De Luca&lt;/a&gt;] &amp; .red[&lt;a href="https://www.uniparthenope.it/Portale-Ateneo/organigramma/1231"&gt;Prof. Paolo Mazzocchi&lt;/a&gt;]
+
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 60px;
+height: 60px;
+z-index: 0;
+background-image: url(./Figs/logo_esogu_blue.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+bottom:12px;left:20px;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('a')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = 'https://www.ogu.edu.tr/en'
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+---
+class: hide_logo
+background-image: url(./Figs/shiny_cover.png)
+background-position: center
+background-size: cover
+
+---
+class: inverse, center, middle
+
+# What is Shiny?
+
+---
+# What is Shiny?
+
+[Shiny](https://shiny.posit.co/) is a framework for easily building **fully interactive** web applications using [R](https://www.r-project.org/) code.
+
+--
+  - .orange[User interface (UI)] components can be easily customized or extended, which will cause the .purple[server] to update the .orange[UI]’s display (by running R code).
+
+--
+  - .purple[Server] uses reactive programming to let you create any type of back-end logic you want.
+
+--
+  - No HTML, CSS, and JavaScript required but can be used easily.
+
+--
+
+# What is Shiny App?
+A **Shiny** app is a web page or a user interface (.orange[UI]) connected to a computer running a live R session (.purple[server]).
+
+--
+
+  - Users can manipulate the .orange[UI], which will cause the .purple[server] to update the .orange[UI]'s display (by running R code).
+
+---
+class: center, middle
+
+## Shiny app can be maintained by a .red[local computer] running R.
+&lt;img src="./Figs/r_computer_local.png" width="100%" height="400" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+## Shiny app can be maintained by a .red[cloud computer] running R.
+&lt;img src="./Figs/r_computer_cloud.png" width="100%" height="400" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+## Shiny App Working Logic
+&lt;img src="./Figs/r_computer3.png" width="100%" height="500" style="display: block; margin: auto;" /&gt;
+
+---
+# Installation
+[Shiny package](https://cran.r-project.org/web/packages/shiny/index.html) is required for using the Shiny framework.
+
+--
+
+
+```r
+install.packages("shiny")
+library(shiny)
+```
+
+---
+class: inverse, center, middle
+
+# Creating Shiny App
+
+---
+# Creating Shiny App
+There are two main ways (application types) to create a Shiny app.
+  - Single file app: .red[`app.R`]
+  - Multiple file app: .orange[`ui.R`] and .purple[`server.R`]
+
+--
+
+Main shiny app files&lt;sup&gt;1&lt;/sup&gt;:
+  - .orange[`ui.R`] defines the user interface, the HTML webpage that humans interact with.
+  - .purple[`server.R`] specifies the behavior of the shiny app by defining a server function.
+  - .red[`app.R`] is a single file that contains the all codes from both the .orange[`ui.R`] and .purple[`server.R`] files.
+
+.footnote[
+[1] We'll talk about the details of .red[`app.R`], .orange[`ui.R`], and .purple[`server.R`] files in coming slides.
+]
+
+--
+
+.red[**Warning**]: Name of these files should be as given above, otherwise your shiny app will not work.
+
+---
+# Creating Shiny App
+You can perform either way by
+
+--
+  - creating those files (.red[`app.R`], .orange[`ui.R`], .purple[`server.R`]) in a directory yourself.
+
+--
+  - using RStudio.
+
+--
+
+Both ways has the same end result, so choose the easiest one for yourself.
+  - I prefer creating those files myself; however, in this BootCamp we'll use RStudio.
+
+---
+# R + Shiny with RStudio = Shiny App
+It is easier to build Shiny apps using [RStudio](https://posit.co/download/rstudio-desktop/) due to several handy shortcuts, preview options, and etc.
+
+--
+
+.pull-left-mod[
+&lt;img src="./Figs/r_logo.png" width="50%" style="display: block; margin: auto auto auto 0;" /&gt;
+&lt;br&gt;
+&lt;img src="./Figs/shiny_logo.png" width="50%" style="display: block; margin: auto auto auto 0;" /&gt;
+&lt;br&gt;
+&lt;img src="./Figs/rstudio_logo.png" width="50%" style="display: block; margin: auto auto auto 0;" /&gt;
+]
+
+--
+
+.pull-right-mod[
+&lt;img src="./Figs/shiny.gif" width="100%" height="400" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Creating Shiny App in RStudio
+
+Creating a shiny app with RStudio is easy and gives you several options.
+  - Without a **RStudio project**:
+    + Single file app.
+    + Multiple file app.
+  - With a **RStudio project** (with `.Rproj` file in the directory).
+    + Single file app.
+    + Multiple file app (should be added manually).
+
+--
+
+Using [**RStudio project**](https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects) for building a shiny app has several advantages:
+  - Dividing your work into multiple contexts, each with their own working directory, workspace, history, and source documents.
+  - New RStudio session.
+  - Project based RStudio options.
+
+---
+# Creating Shiny App in RStudio - Without RStudio Project
+
+If you use RStudio, it is easy to get started:
+  1. from the menu `File -&gt; New File -&gt; Shiny Web App`.
+  2. on the *pop-up window* give a **name** to your shiny app.
+    - This will be the directory name that your app will be saved, not the file name that your app runs.
+  3. on the *pop-up window* chose the **application type** (single or multiple file).
+  4. press **Create**.
+
+&lt;img src="./Figs/rstudio_shiny_create.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+# Creating Shiny App in RStudio - With RStudio Project
+
+If you use RStudio with RStudio Project:
+  1. from the menu `File -&gt; New Project`.
+  2. on the *pop-up window* select **New Directory**.
+  3. on the *pop-up window* chose the **Shiny Application**.
+  4. on the *pop-up window* give a **name** to your shiny app.
+    - This will be the directory name that your app will be saved, not the file name that your app runs.
+  5. press **Create**.
+
+&lt;img src="./Figs/rstudio_new_project1.png" width="35%" style="display: block; margin: auto;" /&gt;
+
+---
+# Creating Shiny App in RStudio - With RStudio Project
+
+.pull-left[
+&lt;img src="./Figs/rstudio_new_project2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.pull-right[
+&lt;img src="./Figs/rstudio_new_project3.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: inverse, center, middle
+
+# Running Shiny App
+
+---
+# Running Shiny App in Rstudio
+
+After creating the shiny app with a **single file**&lt;sup&gt;1&lt;/sup&gt;
+  1. You will see a shiny app example in the editor, with a single file named as .red[`app.R`].
+  2. Press the **Run App** button on the top-right of the editor to run the app or use the keyboard shortcut `Cmd/Ctrl + Shift + Enter` while the .red[`app.R`] file is open on the editor.&lt;sup&gt;3&lt;/sup&gt;
+
+--
+
+After creating the shiny app with **multiple file**&lt;sup&gt;2&lt;/sup&gt;
+  1. You will see a shiny app example in the editor, with two files named as .orange[`ui.R`] and .purple[`server.R`].
+  2. Press the **Run App** button on the top-right of the editor to run the app or use the keyboard shortcut `Cmd/Ctrl + Shift + Enter` while either the .orange[`ui.R`] or .purple[`server.R`] file is open on the editor.&lt;sup&gt;3&lt;/sup&gt;
+
+.footnote[
+[1] With or without RStudio Project.  
+[2] Without RStudio Project. If RStudio Project is desired, .orange[`ui.R`] and .purple[`server.R`] files should be created manually.  
+[3] `runApp(&lt;path to shiny app directory&gt;)` can also be used to run the app.
+]
+
+--
+
+&lt;img src="./Figs/rstudio_shiny_run_app.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+
+# Previewing and Closing Shiny App
+
+---
+# Previwing Shiny App
+
+After running the shiny app you can preview it on:
+
+--
+  - **Browser** in your computer.
+
+--
+  - **Viewer Pane** in RStudio.
+
+--
+  - **Built in web browser window** in RStudio as shown below.
+
+--
+
+&lt;img src="./Figs/rstudio_shiny_preview_window.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+## Closing a Shiny App in Rstudio
+&lt;img src="./Figs/rstudio_shiny_close_app.png" width="100%" height="500" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+
+# Shiny App Directory
+
+---
+# Shiny App Directory
+
+The **shiny app directory** should follow some rules and certain file names.
+
+--
+  - Keep your app in a directory along with optional extra files.
+
+--
+  - The directory name is the shiny app name.
+
+---
+# Shiny App Directory with Main Files
+
+**Main files** in the shiny app directory:
+  - Single file app: .red[`app.R`]
+  - Multiple file app: .orange[`ui.R`] and .purple[`server.R`].
+
+--
+
+.pull-left[
+&lt;img src="./Figs/shiny_directory_single_file.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+&lt;img src="./Figs/shiny_directory_multiple_file.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Shiny App Directory with Extra Files
+
+**Extra files** in the shiny app directory:
+
+--
+
+  - `global.R`: (optional) defines objects available to both .orange[`ui.R`] and .purple[`server.R`], sourced automatically and must be named as `global.R`.
+
+--
+
+  - `./R/`: (optional) directory of supplemental `.R` files, sourced automatically and must be named as `R`.
+
+--
+
+  - `./www/`: (optional) directory of files to share with web browsers (images, CSS, .js, etc.), must be named as `www`.
+
+--
+
+  - `DESCRIPTION`: (optional) used in showcase mode.
+
+--
+
+  - `README.md`: (optional) used in showcase mode.
+
+--
+
+.red[**Warning**]: Load the necessary libraries for your shiny app either in the `global.R` file or .red[`app.R`] file.
+
+---
+# Shiny App Directory - Single File
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Figs/shiny_directory_1.png" alt="Single File App - Version 1" width="80%" /&gt;
+&lt;p class="caption"&gt;Single File App - Version 1&lt;/p&gt;
+&lt;/div&gt;
+
+--
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Figs/shiny_directory_2.png" alt="Single File App - Version 2" width="80%" /&gt;
+&lt;p class="caption"&gt;Single File App - Version 2&lt;/p&gt;
+&lt;/div&gt;
+
+---
+# Shiny App Directory - Multiple File
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Figs/shiny_directory_multiple_file_RStudio_Project.png" alt="Multiple File App with RStudio Project" width="40%" /&gt;
+&lt;p class="caption"&gt;Multiple File App with RStudio Project&lt;/p&gt;
+&lt;/div&gt;
+
+---
+class: inverse, center, middle
+
+# Structure of Shiny App
+
+---
+# Structure of Shiny App
+
+Shiny app should have two required and one optional component.
+- .orange[UI]: (required) The user interface object controls the layout and appearance of the shiny app.
+- .purple[Server]: (required) The server function contains the instructions that computer needs to build the shiny app.
+- `shinyApp()`: (optional) The function creates shiny app objects from an explicit .orange[UI]/.purple[server] pair.
+
+--
+
+Single file app has three components inside of the .red[`app.R`] file.
+  - .orange[UI]: a user interface object
+  - .purple[Server]: a server function
+  - `shinyApp()`: a call to the `shinyApp()` function
+
+--
+
+Multiple file app has two components:
+  - .orange[`ui.R`]: contains a user interface object.
+  - .purple[`server.R`]: contains a server function.
+
+---
+# Structure of Shiny App - Single File App
+
+Simple single file:
+
+```r
+# app.R file.
+
+# Packages.
+library(shiny)
+
+# UI.
+ui &lt;- fluidPage(
+    "Hello World"
+)
+
+# Server.
+server &lt;- function(input, output) {
+    ## Add server related functions, objects, and etc.
+    ## Now it is empty, so nothing happens in the server.
+}
+
+# Creating Shiny App.
+shinyApp(ui = ui, server = server)
+```
+
+---
+# Structure of Shiny App - Multiple File App
+
+Simple multiple file app:
+
+```r
+# ui.R file.
+
+# Packages.
+library(shiny)
+
+# UI.
+ui &lt;- fluidPage(
+    "Hello World"
+)
+```
+
+--
+
+
+```r
+# server.R file.
+
+# Server.
+server &lt;- function(input, output) {
+    ## Add server related functions, objects, and etc.
+    ## Now it is empty, so nothing happens in the server.
+}
+```
+
+---
+# Structure of Shiny App - Single vs Multiple File App
+
+&lt;img src="./Figs/shiny_structure_single_file_vs_multiple_file.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+We'll talk about the details of layout, `*Input`, `*Output`, and `render*` functions later.
+]
+
+---
+class: inverse, center, middle
+
+# Shiny App Reactive Flow
+
+---
+# Shiny App Reactive Flow
+
+Simplest interactive shiny app reactive flow:
+  1. Define the layout of the shiny app in .orange[UI] using with layout functions.
+  2. Add an input to the .orange[UI] with **`*Input()`** functions to make the app interactive.
+  3. Tell the .purple[server] how respond to inputs with R and to render outputs.
+    - Refer to inputs with **`input$&lt;id&gt;`**. Input values are reactive.
+    - Wrap code in a **`render*()`** function before saving to output.
+    - Name output objects as **`output$&lt;id&gt;`**.
+  4. Add the output object generated by the .purple[server] into the .orange[UI] using **`*Output()`** functions.
+    - Refer to outputs with **`output$&lt;id&gt;`**.
+
+---
+# Shiny App Reactive Flow
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Figs/shiny_reactive_flow_1.png" alt="Shiny App Reactive Flow - Version 1" width="100%" /&gt;
+&lt;p class="caption"&gt;Shiny App Reactive Flow - Version 1&lt;/p&gt;
+&lt;/div&gt;
+
+.footnote[
+We'll talk about the details of layout, `*Input`, `*Output`, and `render*` functions later.
+]
+
+---
+# Shiny App Reactive Flow
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Figs/shiny_reactive_flow_2.png" alt="Shiny App Reactive Flow - Version 2" width="90%" /&gt;
+&lt;p class="caption"&gt;Shiny App Reactive Flow - Version 2&lt;/p&gt;
+&lt;/div&gt;
+
+.footnote[
+We'll talk about the details of layout, `*Input`, `*Output`, and `render*` functions later.
+]
+
+---
+class: inverse, center, middle
+
+# Inputs and Outputs
+
+---
+class: center, middle
+
+## Build shiny app around .green[inputs] and .blue[outputs]
+
+&lt;img src="./Figs/shiny_inputs.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+## Build shiny app around .green[inputs] and .blue[outputs]
+
+&lt;img src="./Figs/shiny_outputs.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# .green[Inputs] and .blue[Outputs]
+
+Add elements to your app as arguments to layout function&lt;sup&gt;1&lt;/sup&gt;, e.g., `fluidPage()`.
+
+--
+
+
+```r
+# UI.
+ui &lt;- fluidPage(
+  # *Input() functions,
+  # *Output() functions
+)
+```
+
+.footnote[
+[1] We'll talk about the details of layout functions later.
+]
+
+---
+class: inverse, center, middle
+
+# Inputs
+
+---
+# .green[Inputs]
+
+Create an .green[input] with **`*Input()`** functions.
+
+--
+
+
+```r
+# Slider input example.
+
+sliderInput(
+* inputId = "num",
+  label = "Choose a number",
+  value = 25, min = 1, max = 100
+)
+```
+
+--
+
+.red[**Warning**]: Use **`input$&lt;id&gt;`** to access input values in the .purple[server].
+
+---
+# .green[Inputs]
+
+Single .green[input] shiny app example without any .blue[output].
+
+--
+
+.pull-left[
+
+```r
+# Packages.
+library(shiny)
+
+# UI.
+ui &lt;- fluidPage(
+* sliderInput(
+*   inputId = "num",
+*   label = "Choose a number",
+*   value = 25, min = 1, max = 100
+* )
+  ## No output is reflected.
+)
+
+# Server.
+server &lt;- function(input, output) {
+    ## No output is rendered/generated.
+}
+
+# Creating Shiny App.
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="./Figs/shiny_input_single_output_no.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# .green[Input] Reactivity
+
+The .green[input] value is reactive&lt;sup&gt;1&lt;/sup&gt; and changes whenever the end-user changes the .green[input] in the .orange[UI].
+
+--
+
+&lt;img src="./Figs/shiny_input_values.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+[1] We'll talk about the reactivity later.
+]
+
+---
+class: center, middle
+
+# `*Input()` Functions Syntax
+
+&lt;img src="./Figs/shiny_input_syntax.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# Basic Inputs (Widgets)
+
+&lt;img src="./Figs/shiny_input_functions_basic_1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# Basic Inputs (Widgets)
+
+&lt;img src="./Figs/shiny_input_functions_basic_2.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# [Shiny Widgets Gallery](https://shiny.posit.co/r/gallery/widgets/widget-gallery/)
+
+&lt;img src="./Figs/shiny_input_functions_basic_gallery.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+
+# Outputs
+
+---
+# Outputs
+
+**`*Output()`** functions reflects the .blue[output] object rendered in the .purple[server] to display in the .orange[UI].
+
+--
+
+Create an .blue[output] object in the .purple[server] using
+  - **`input$&lt;id&gt;`** to access .green[input] values in the .purple[server].
+  - **`render*()`** functions&lt;sup&gt;1&lt;/sup&gt; in .purple[server] to generate the .blue[output] objects.
+  - **`output$&lt;id&gt;`** to name the .blue[output] objects.
+
+--
+
+
+```r
+server &lt;- function(input, output) {
+*   output$hist &lt;- renderPlot(
+        {
+*           hist(rnorm(input$num))
+        }
+    )
+}
+```
+
+--
+
+.red[**Warning**]: Use **`&lt;id&gt;`** of an .blue[output] object to access the .blue[output] object in the .orange[UI].
+
+.footnote[
+[1] We'll talk about the details of `render*()` functions later.
+]
+
+---
+# Outputs
+
+Single .green[input] shiny app example with one .blue[output].
+
+.pull-left[
+
+```r
+library(shiny)
+
+ui &lt;- fluidPage(
+    sliderInput(
+*       inputId = "num",
+        label = "Choose a number",
+        value = 25, min = 1, max = 100
+*   ), ## Comma between arguments.
+*   plotOutput(outputId = "hist")
+)
+
+server &lt;- function(input, output) {
+*   output$hist &lt;- renderPlot(
+        {
+*           hist(rnorm(input$num))
+        }
+    )
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="./Figs/shiny_input_single_output_single.png" width="95%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: center, middle
+
+# `*Output()` Functions Syntax
+
+&lt;img src="./Figs/shiny_output_syntax.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# Basic `*Output()` Functions
+
+&lt;img src="./Figs/shiny_output_functions_1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# Basic `*Output()` Functions
+
+&lt;img src="./Figs/shiny_output_functions_2.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+These are the core output types. See [htmlwidgets.org](htmlwidgets.org) for many more options.
+]
+
+---
+class: inverse, center, middle
+
+# Rendering
+
+---
+# `render*()` Functions
+
+**`render*()`** functions create reactive .blue[output] objects in the .purple[server] to display it in the .orange[UI].
+
+--
+
+.red[**Warning**]: Use the corresponding **`render*()`** and **`*Output()`** functions that matches the type of the .blue[output] you wish to make. For example:
+  - `renderPlot()` and `plotOutput()`
+  - `renderImage()` and `imageOutput()`
+
+--
+
+
+```r
+ui &lt;- fluidPage(
+    sliderInput(inputId = "num", label = "Choose a number", value = 25, min = 1, max = 100),
+
+*   plotOutput(outputId = "hist")
+)
+
+server &lt;- function(input, output) {
+*   output$hist &lt;- renderPlot(
+        {
+*           hist(rnorm(input$num))
+        }
+    )
+}
+```
+
+---
+class: center, middle
+
+# `render*()` Functions Syntax
+
+&lt;img src="./Figs/shiny_render_syntax.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# Basic `render*()` Functions
+
+&lt;img src="./Figs/shiny_render_functions.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+
+# Basic Reactivity
+
+---
+# Basic Reactivity
+
+Whenever you change an .green[input] value in the .orange[UI], **reactivity** .red[automatically occurs] in the .purple[server] to render an .blue[output] object, which then reflect the updated .blue[output] in the .orange[UI].
+
+--
+
+
+```r
+ui &lt;- fluidPage(
+    sliderInput(
+*     inputId = "num", ## Step 1.
+      label = "Choose a number",
+      value = 25, min = 1, max = 100
+    ),
+
+*   plotOutput(outputId = "hist") ## Step 4.
+)
+
+server &lt;- function(input, output) {
+*   output$hist &lt;- renderPlot( ## Step 3.
+        {
+*           hist(rnorm(input$num)) ## Step 2.
+        }
+    )
+}
+```
+
+---
+class: center, middle
+
+# Basic Reactivity
+
+&lt;img src="./Figs/shiny_reactivity_basic_1.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# Basic Reactivity
+
+&lt;img src="./Figs/shiny_reactivity_basic_2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# Basic Reactivity
+
+&lt;img src="./Figs/shiny_reactivity_basic_3.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+
+# Reactive Values
+
+---
+# Reactive Values
+
+- Reactive values act as a data stream that flow through your shiny app.
+
+--
+
+- The .green[input] is a list of reactive values.
+  + You may have one or multiple inputs.
+
+--
+
+- The .green[`input$&lt;id&gt;`] shows the current value of the .green[input] with `&lt;id&gt;`.
+
+--
+
+Shiny App Reactive Flow:
+  1. Whenever a reactive value (i.e., .green[`input$&lt;id&gt;`]) changed by the end-user, it becomes invalid.
+  2. The invalid state of .green[`input$&lt;id&gt;`] is notified by the .purple[server].
+  3. In the .purple[server], the .blue[object] created by a `render*()` function will .red[re-run the entire block of code] associated with .green[`input$&lt;id&gt;`].
+  4. The updated .blue[object] created by a `render*()` function is notified by the .orange[UI] and reflected on your screen.
+  
+--
+
+.red[**Warning**]: Reactive values only work together with reactive functions. You cannot call a reactive value from outside of reactive functions.
+
+---
+class: center, middle
+
+# Reactive Values - Syntax
+
+&lt;img src="./Figs/shiny_reactivity_values_syntax.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# Reactive Values - .green[Input] Values
+
+&lt;img src="./Figs/shiny_input_values.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# Reactive Values - Warning
+
+### Reactive values work together with reactive functions.
+### You cannot call a reactive value from outside of reactive functions.
+
+&lt;img src="./Figs/shiny_reactivity_values.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# Reactive Values - Example
+
+Two .green[input]s shiny app example with one .blue[output].
+
+.pull-left[
+
+```r
+library(shiny)
+
+ui &lt;- fluidPage(
+* sliderInput(inputId = "num",
+    label = "Choose a number", value = 25, min = 1, max = 100),
+* textInput(inputId = "title",
+    label = "Write a title",
+    value = "Histogram of Random Normal Values"),
+  plotOutput(outputId = "hist")
+)
+
+server &lt;- function(input, output) {
+    output$hist &lt;- renderPlot({
+*     hist(rnorm(input$num), main = input$title)
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="./Figs/shiny_input_two_output_single.png" width="65%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: inverse, center, middle
+
+# Modularization
+
+---
+
+# Modularization - .red[Wrong]
+
+
+```r
+library(shiny)
+
+ui &lt;- fluidPage(
+    sliderInput(
+*     inputId = "num",
+      label = "Choose a number", value = 25, min = 1, max = 100),
+    plotOutput("hist"),
+    verbatimTextOutput("stats")
+)
+
+server &lt;- function(input, output) {
+    output$hist &lt;- renderPlot({
+*     hist(rnorm(input$num))
+    })
+    
+    output$stats &lt;- renderPrint({
+*     summary(rnorm(input$num))
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+---
+# Modularization - .red[Wrong]
+
+&lt;img src="./Figs/shiny_modularization_wrong.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+# `reactive()` Function
+
+**`reactive()`** function builds a reactive object (reactive expression).
+  - You can call a reactive expression like a function.
+  - Reactive expressions cache their values (the expression will return its most recent value, unless it has become invalidated).
+
+--
+
+
+```r
+server &lt;- function(input, output) {
+    data &lt;- reactive(
+        {
+*           rnorm(input$num)
+        }
+    )
+    
+    output$hist &lt;- renderPlot(
+        {
+*           hist(data())
+        }
+    )
+}
+```
+
+---
+class: center, middle
+
+# `reactive()` Function Syntax
+
+&lt;img src="./Figs/shiny_reactive_function_syntax.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# Modularization - .green[Correct]
+
+
+```r
+library(shiny)
+
+ui &lt;- fluidPage(
+    sliderInput(inputId = "num", label = "Choose a number", value = 25, min = 1, max = 100),
+    plotOutput("hist"),
+    verbatimTextOutput("stats")
+)
+
+server &lt;- function(input, output) {
+*   data &lt;- reactive({
+*     rnorm(input$num)
+*   })
+    output$hist &lt;- renderPlot({
+*     hist(data())
+    })
+    output$stats &lt;- renderPrint({
+*     summary(data())
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+---
+# Modularization - .green[Correct]
+
+&lt;img src="./Figs/shiny_modularization_correct.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+
+# Preventing Reactivity
+
+---
+# `isolate()` Function
+
+**`isolate()`** function returns the result as a non-reactive value.
+  - Makes a non-reactive object.
+  - Treats reactive values like normal R values.
+
+--
+
+
+```r
+library(shiny)
+
+ui &lt;- fluidPage(
+* sliderInput(inputId = "num",
+    label = "Choose a number", value = 25, min = 1, max = 100),
+* textInput(inputId = "title",
+    label = "Write a title", value = "Histogram of Random Normal Values"),
+  plotOutput(outputId = "hist")
+)
+
+server &lt;- function(input, output) {
+    output$hist &lt;- renderPlot({
+*     hist(rnorm(input$num), main = isolate({input$title}))
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+---
+class: center, middle
+
+# `isolate()` Function Syntax
+
+&lt;img src="./Figs/shiny_isolate_function_syntax.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# `isolate()` Function Logic
+
+&lt;img src="./Figs/shiny_isolate_function_example.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+
+# Advanced Reactivity
+
+---
+class: center, middle
+
+# Shiny Reactivity Diagram
+&lt;img src="./Figs/shiny_reactivity_advanced.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# Action Button
+&lt;img src="./Figs/shiny_action_button_syntax.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# Action Button - Example
+
+.pull-left[
+
+```r
+library(shiny)
+
+ui &lt;- fluidPage(
+    actionButton(
+*       inputId = "clicks",
+        label = "Click me"
+    )
+)
+
+server &lt;- function(input, output) {
+    ## Empty for now.
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="./Figs/shiny_action_button_example.png" width="65%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: center, middle
+
+# `observeEvent()`
+&lt;img src="./Figs/shiny_observeEvent_syntax.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# `observeEvent()` - Example
+
+.pull-left[
+
+```r
+library(shiny)
+
+ui &lt;- fluidPage(
+    actionButton(
+*       inputId = "clicks",
+        label = "Click me"
+    )
+)
+
+server &lt;- function(input, output) {
+    observeEvent(
+*       input$clicks,
+        {
+            # Printing in the Console.
+*           print(as.numeric(input$clicks))
+        }
+    )
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="./Figs/shiny_observeEvent_example.png" width="65%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: center, middle
+
+# `observe()`
+&lt;img src="./Figs/shiny_observe_syntax.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# `observe()` - Example
+
+.pull-left[
+
+```r
+library(shiny)
+
+ui &lt;- fluidPage(
+    sliderInput(
+*       inputId = "num",
+        label = "Choose a number",
+        value = 25, min = 1, max = 100
+    )
+)
+
+server &lt;- function(input, output) {
+    observe(
+        {
+            # Printing in the Console.
+*           print(as.numeric(input$num))
+        }
+    )
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="./Figs/shiny_observe_example.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: center, middle
+
+# `eventReactive()`
+&lt;img src="./Figs/shiny_eventReactive_syntax.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# `eventReactive()` - Ex: Before Event Reactivity
+
+.pull-left[
+
+```r
+library(shiny)
+
+ui &lt;- fluidPage(
+*   sliderInput(inputId = "num",
+        label = "Choose a number",
+        value = 25, min = 1, max = 100),
+*   actionButton(inputId = "go",
+        label = "Update"),
+    plotOutput("hist")
+)
+
+server &lt;- function(input, output) {
+*   data &lt;- eventReactive(input$go, {
+*     rnorm(input$num)
+*   })
+    output$hist &lt;- renderPlot({
+*     hist(data())
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Figs/shiny_eventReactive_example_before_event.png" alt="Before Event Reactivity" width="60%" /&gt;
+&lt;p class="caption"&gt;Before Event Reactivity&lt;/p&gt;
+&lt;/div&gt;
+]
+
+---
+class: center, middle
+
+# `eventReactive()` - Ex: After Event Reactivity
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Figs/shiny_eventReactive_example_after_event.png" alt="After Event Reactivity" width="70%" /&gt;
+&lt;p class="caption"&gt;After Event Reactivity&lt;/p&gt;
+&lt;/div&gt;
+
+---
+class: center, middle
+
+# `reactiveValues()`
+&lt;img src="./Figs/shiny_reactiveValues_syntax.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# `reactiveValues()` - Ex: Before Reactivity
+
+.pull-left[
+
+```r
+library(shiny)
+
+ui &lt;- fluidPage(
+*   actionButton(inputId = "norm", label = "Normal"),
+*   actionButton(inputId = "unif", label = "Uniform"),
+    plotOutput("hist")
+)
+
+server &lt;- function(input, output) {
+*   rv &lt;- reactiveValues(data = rnorm(100))
+
+*   observeEvent(input$norm, { rv$data &lt;- rnorm(100) })
+*   observeEvent(input$unif, { rv$data &lt;- runif(100) })
+
+    output$hist &lt;- renderPlot({
+*     hist(rv$data)
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+--
+
+.pull-right[
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Figs/shiny_reactiveValues_example_before_reactivity.png" alt="Before Reactivity" width="65%" /&gt;
+&lt;p class="caption"&gt;Before Reactivity&lt;/p&gt;
+&lt;/div&gt;
+]
+
+---
+class: center, middle
+
+# `reactiveValues()` - Ex: After Reactivity
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Figs/shiny_reactiveValues_example_after_reactivity_1.png" alt="After Reactivity" width="80%" /&gt;
+&lt;p class="caption"&gt;After Reactivity&lt;/p&gt;
+&lt;/div&gt;
+
+---
+class: center, middle
+
+# `reactiveValues()` - Ex: After Another Reactivity
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Figs/shiny_reactiveValues_example_after_reactivity_2.png" alt="After Another Reactivity" width="80%" /&gt;
+&lt;p class="caption"&gt;After Another Reactivity&lt;/p&gt;
+&lt;/div&gt;
+
+---
+class: inverse, center, middle
+
+# Layout
+
+---
+class: center, middle
+
+# 2-Dimensional Space
+
+### Use **layout functions** to position elements within your app.
+&lt;img src="./Figs/shiny_layout_two_dims.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+# Layout Functions
+
+Use **layout functions** that divide the .orange[UI] into a grid.
+
+--
+
+  - **`fluidRow()`** function:
+    + Adds row to the grid.
+    + Each new row goes below the previous rows.
+
+--
+
+  - **`column()`** function
+    + Adds columns within a row.
+    + Each new column goes to the right of the previous column.
+    + Specify the `width` and `offset` of each column out of **12**
+
+--
+
+.red[**Warning**]: To place an element in the grid, call it as an argument of a **`layout function`**.
+
+---
+class: center, middle
+
+# Layout Functions - Example
+&lt;img src="./Figs/shiny_layout_layout_functions_example.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# 3-Dimensional Space
+
+### Use **panel functions** to position elements within your app.
+&lt;img src="./Figs/shiny_layout_three_dims.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+# Panels
+
+Use **panels** to group multiple elements into a single unit with its own properties.
+
+--
+
+  - Panels can be two-dimensional or three-dimensional.
+
+--
+
+  - Panels can be one layer or multiple stackable layers.
+
+--
+
+  - See app examples for more information.
+
+--
+
+.red[**Warning**]: To place an element in the panel, call it as an argument of a **`panel function`**.
+
+---
+class: center, middle
+
+# Panel Functions
+&lt;img src="./Figs/shiny_layout_panel_functions.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# Panel Functions - Example
+&lt;img src="./Figs/shiny_layout_panel_functions_example_1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# Panel Functions - Example
+&lt;img src="./Figs/shiny_layout_panel_functions_example_2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+
+# Other Important Topics
+
+---
+# Other Important Topics
+
+There are some other important topics left out in this BootCamp:
+
+.pull-left[
+- Working with the HTML in the .orange[UI] and using Shiny HTML tag functions.
+
+- Using CSS, java script, Bootstrap.
+
+- Adding static content, i.e., images, data, and etc.
+
+- Shiny modules
+
+- Profiling, load test, unit test, and reactivity test 
+]
+
+.pull-right[
+- Utilizing from `./www/`, `./R/`, `global.R` file.
+
+- Adding Google Analytics to your app.
+
+- Publishing your app (we will cover [shinyapps.io](https://www.shinyapps.io/) during the app examples)
+]
+
+---
+class: inverse, center, middle
+
+# Useful Links
+
+---
+# Useful Links
+
+.pull-left[
+- [Shiny Web Page](https://shiny.posit.co/) (Posit)
+
+- [Shiny Package](https://rstudio.github.io/shiny/index.html) (Posit GitHub)
+
+- [Shiny Package](https://cran.r-project.org/web/packages/shiny/index.html) (CRAN)
+
+- [Shiny Articles](https://shiny.posit.co/r/articles/) (Posit)
+
+- [Mastering Shiny](https://mastering-shiny.org/index.html) (Online Book)
+
+- [Shiny Crush Course](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/index.html) (Posit)
+
+- [Shiny Gallery](https://shiny.posit.co/r/gallery/) (Posit)
+
+- [Shiny Widget Gallery](https://shiny.posit.co/r/gallery/widgets/widget-gallery/) (Posit)
+
+- [Shiny Themes](https://rstudio.github.io/shinythemes/)
+
+- [Shiny Theme Selector](https://shiny.posit.co/r/gallery/application-layout/shiny-theme-selector/) (Posit)
+
+- [Theme Designer](https://nik01010.shinyapps.io/dashboardThemeDesigner/)
+]
+
+.pull-right[
+- [Shiny Cheat Sheet](https://rstudio.github.io/cheatsheets/html/shiny.html#building-an-app) (Posit)
+
+- [Shiny HTML Tags Glossary](https://shiny.posit.co/r/articles/build/tag-glossary/) (Posit)
+
+- [Using Custom CSS](https://shiny.posit.co/r/articles/build/css/) (Posit)
+
+- [Shiny Modules](https://shiny.posit.co/r/articles/improve/modules/) (Posit)
+
+- [shinyapps.io](https://www.shinyapps.io/)
+
+- [shinyapps.io User Guide](https://docs.posit.co/shinyapps.io/index.html)
+
+- [awesome-rshiny](https://github.com/grabear/awesome-rshiny) (Collection)
+
+- [awesome-shiny-extensions](https://github.com/nanxstats/awesome-shiny-extensions) (Collection)
+
+- [awesome-react-components](https://github.com/brillout/awesome-react-components) (Collection)
+
+- [Tips &amp; Tricks](https://deanattali.com/blog/advanced-shiny-tips/) (Collection)
+]
+
+---
+class: hide_logo, center, middle
+
+# Thank You!
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](https://yihui.org/knitr/), and [R Markdown](https://rmarkdown.rstudio.com).
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"slideNumberFormat": "%current% / %total%",
+"highlightLines": true,
+"highlightStyle": "github",
+"highlightLanguage": "r",
+"countIncrementalSlides": false,
+"includePresenterNotes": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
