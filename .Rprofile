@@ -1,4 +1,4 @@
-source("renv/activate.R")
+# source("renv/activate.R")
 #============================= Shiny mini BootCamp =============================
 #================================== .Rprofile ==================================
 #======================= Initial Settings for The Workshop =====================
