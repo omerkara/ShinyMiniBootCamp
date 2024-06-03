@@ -12,6 +12,7 @@ ui <- fluidPage(
         inputId = "unif",
         label = "Uniform"
     ),
+
     plotOutput("hist")
 )
 

@@ -4,6 +4,7 @@ library(shiny)
 # UI.
 ui <- fluidPage(
     h1("My Shiny App"),
+
     p(style = "font-family:Impact",
       "See other apps in the",
       a("Shiny Showcase",
